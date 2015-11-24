@@ -10,7 +10,7 @@ pom.xml.asc
 .hgignore
 .hg/
 profiles.clj
-.db
+*.db
 # -*- mode: gitignore; -*-
 *~
 \#*\#
