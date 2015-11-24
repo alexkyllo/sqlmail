@@ -1,0 +1,53 @@
+2015-11-04 21:25:37 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Table "USERS" not found; SQL statement:
+SELECT count(1)
+FROM users; [42102-188]
+2015-11-04 21:29:13 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Method is only allowed for a query. Use execute or executeUpdate instead of executeQuery; SQL statement:
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+ name varchar
+); [90002-188]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:345)
+	at org.h2.message.DbException.get(DbException.java:179)
+	at org.h2.message.DbException.get(DbException.java:155)
+	at org.h2.message.DbException.get(DbException.java:144)
+	at org.h2.command.Prepared.query(Prepared.java:212)
+	at org.h2.command.CommandContainer.query(CommandContainer.java:90)
+	at org.h2.command.CommandList.query(CommandList.java:49)
+	at org.h2.command.Command.executeQuery(Command.java:197)
+	at org.h2.jdbc.JdbcPreparedStatement.executeQuery(JdbcPreparedStatement.java:108)
+	at clojure.java.jdbc$db_query_with_resultset$run_query_with_params__7992.invoke(jdbc.clj:824)
+	at clojure.java.jdbc$db_query_with_resultset.invoke(jdbc.clj:834)
+	at clojure.java.jdbc$query.doInvoke(jdbc.clj:866)
+	at clojure.lang.RestFn.invoke(RestFn.java:636)
+	at yesql.generate$query_handler.invoke(generate.clj:89)
+	at yesql.generate$generate_query_fn$real_fn__9312.invoke(generate.clj:120)
+	at yesql.generate$generate_query_fn$query_wrapper_fn__9315.invoke(generate.clj:134)
+	at yesql.generate$generate_query_fn$query_wrapper_fn__9315.invoke(generate.clj:133)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.lang.AFunction$1.doInvoke(AFunction.java:29)
+	at clojure.lang.RestFn.invoke(RestFn.java:397)
+	at sqlmail.core$eval9424.invoke(form-init251836993170383646.clj:32)
+	at clojure.lang.Compiler.eval(Compiler.java:6782)
+	at clojure.lang.Compiler.eval(Compiler.java:6745)
+	at clojure.core$eval.invoke(core.clj:3081)
+	at clojure.main$repl$read_eval_print__7099$fn__7102.invoke(main.clj:240)
+	at clojure.main$repl$read_eval_print__7099.invoke(main.clj:240)
+	at clojure.main$repl$fn__7108.invoke(main.clj:258)
+	at clojure.main$repl.doInvoke(main.clj:258)
+	at clojure.lang.RestFn.invoke(RestFn.java:1523)
+	at clojure.tools.nrepl.middleware.interruptible_eval$evaluate$fn__647.invoke(interruptible_eval.clj:87)
+	at clojure.lang.AFn.applyToHelper(AFn.java:152)
+	at clojure.lang.AFn.applyTo(AFn.java:144)
+	at clojure.core$apply.invoke(core.clj:630)
+	at clojure.core$with_bindings_STAR_.doInvoke(core.clj:1868)
+	at clojure.lang.RestFn.invoke(RestFn.java:425)
+	at clojure.tools.nrepl.middleware.interruptible_eval$evaluate.invoke(interruptible_eval.clj:85)
+	at clojure.tools.nrepl.middleware.interruptible_eval$interruptible_eval$fn__692$fn__695.invoke(interruptible_eval.clj:222)
+	at clojure.tools.nrepl.middleware.interruptible_eval$run_next$fn__687.invoke(interruptible_eval.clj:190)
+	at clojure.lang.AFn.run(AFn.java:22)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1145)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:615)
+	at java.lang.Thread.run(Thread.java:745)
