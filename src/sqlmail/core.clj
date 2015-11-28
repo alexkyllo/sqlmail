@@ -2,11 +2,11 @@
   (:gen-class)
   (:require [yesql.core :refer [defqueries]]
             [postal.core :refer [send-message]]
-            [schejulure.core :refer [schedule]]
             [hiccup.core :refer [html]]
             [environ.core :refer [env]]
             [clojure.data.csv :refer [write-csv]]
             [clojure.java.io :refer [writer]]
+            [schejulure.core :refer [schedule]]
             [tempfile.core :refer [tempfile with-tempfile]]))
 
 (defqueries "sql/queries.sql" {:connection (env :db-conn)})
@@ -33,7 +33,9 @@
 (defn stringify-ids [v]
   (vec (cons (mapv name (first v)) (rest v))))
 
-(defn mail-html-report [account from to subject report]
+(defn mail-html-report
+  "Email the results of the query in HTML format"
+  [account from to subject report]
   (send-message account {:from from
                          :to to
                          :subject subject
@@ -41,11 +43,13 @@
                                  :content (vec-to-html
                                            (report {} {:as-arrays? true}))}]}))
 
-(defn mail-csv-report [account from to subject report]
-  (with-tempfile [tf
-                  (tempfile
-                   (with-out-str
-                     (write-csv *out* (stringify-ids (report {} {:as-arrays? true})))))]
+(defn mail-csv-report
+  "Email the results of the query as an attachment in CSV format"
+  [account from to subject report]
+  (with-tempfile
+    [tf (tempfile
+         (with-out-str
+           (write-csv *out* (stringify-ids (report {} {:as-arrays? true})))))]
     (send-message account {:from from
                            :to to
                            :subject subject
@@ -55,5 +59,7 @@
 
 (defn -main
   "main"
-  [report & args]
-  (mail-html-report (to-html (report))))
+  [& args]
+  ;; schedule reports here, e.g.:
+  ;; (schedule ({:day [:mon :wed] :hour 8 :minute 30} (mail-csv-report ...))
+  )
