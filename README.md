@@ -28,6 +28,17 @@ Run the jar and it will start a process that schedules all the reports defined i
 (defn -main
   "Run to start all scheduled reports."
   [& args]
+  ;; one report
+  (make-scheduled-report
+    my-query
+    {}
+    (env :mail-account)
+    {:from "foo@example.com"
+     :to "bar@example.com"
+     :subject "Test Scheduled Report"}
+     :html
+     {})
+  ;; another report
   (make-scheduled-report
     my-query
     {}
@@ -39,19 +50,10 @@ Run the jar and it will start a process that schedules all the reports defined i
      {}))
 ```
 
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Alex Kyllo
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
