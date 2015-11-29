@@ -18,12 +18,20 @@ Add this to your Leiningen dependencies in project.clj:
 
 [![Clojars Project](http://clojars.org/sqlmail/latest-version.svg)](http://clojars.org/sqlmail)
 
-Just use the `make-scheduled-report` function within your application to start a scheduled report:
+First put your queries in a .sql file and bind them to functions using yesql.
+Optionally, use [environ](https://github.com/weavejester/environ) to keep your database
+credentials outside of your source code:
+
+```clojure
+(defqueries "sql/queries.sql" {:connection (env :db-spec)})
+```
+
+Then, just use the `make-scheduled-report` function within your application to start a scheduled report:
 
 ```clojure
 (def my-report
   (make-scheduled-report
-    user-count ;; name of query to run
+    user-count ;; name of yesql query function to run
     {} ;; map of parameters to pass to the query
     (env :mail-account) ;; smtp account with keys :host :user :pass
     {:from "foo@example.com" :to "bar@example.com" :subject "a cool report"} ;; e-mail headers
@@ -53,7 +61,7 @@ Run the jar and it will start a process that schedules all the reports defined i
 ;; in src/sqlmail/core.clj
 
 ;; define a set of queries stored in resources/sql/queries.sql using yesql
-(defqueries "sql/queries.sql" {:connection (env :db-conn)})
+(defqueries "sql/queries.sql" {:connection (env :db-spec)})
 
 ;; define a report to schedule using schejulure
 (defn -main
