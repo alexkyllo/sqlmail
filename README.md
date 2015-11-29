@@ -1,6 +1,6 @@
 # sqlmail
 
-SQLMail is a simple Clojure application for e-mailing scheduled reports using SQL. It might be the simplest "reporting server" in the world. It is just yesql + postal + schejulure.
+SQLMail is a simple Clojure application for e-mailing scheduled reports using SQL. It might be the simplest "reporting server" in the world. It is just [yesql](https://github.com/krisajenkins/yesql) + [postal](https://github.com/drewr/postal) + [schejulure](https://github.com/AdamClements/schejulure).
 
 ## Installation
 
