@@ -50,6 +50,7 @@ Run the jar and it will start a process that schedules all the reports defined i
      {}))
 ```
 
+Then either `lein run` or `lein jar` and run the jar using java to start the report server running.
 
 ## License
 
