@@ -1,6 +1,8 @@
-(defproject sqlmail "0.1.0-SNAPSHOT"
+(defproject sqlmail "0.1.0"
   :description "FIXME: write description"
-  :url "http://example.com/FIXME"
+  :url "http://github.com/alexkyllo/sqlmail"
+  :scm {:name "git"
+        :url "https://github.com/alexkyllo/sqlmail"}
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]

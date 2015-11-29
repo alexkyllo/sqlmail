@@ -4,10 +4,38 @@ SQLMail is a simple Clojure application for e-mailing scheduled reports using SQ
 
 ## Installation
 
+### Use as an application
 Clone the project
 git clone git@github.com:alexkyllo/sqlmail.git
 Add a profiles.clj to define your database connection and e-mail account
 Then edit resources/sql/queries.sql and src/sqlmail/core.clj to define and schedule your reports
+
+### Use as a library
+Add this to your Leiningen dependencies in project.clj:
+
+[![Clojars Project](http://clojars.org/sqlmail/latest-version.svg)](http://clojars.org/sqlmail)
+
+Just use the `make-scheduled-report` function within your application to start a scheduled report:
+
+```clojure
+(def my-report
+  (make-scheduled-report
+    user-count ;; name of query to run
+    {} ;; map of parameters to pass to the query
+    (env :mail-account) ;; smtp account with keys :host :user :pass
+    {:from "foo@example.com" :to "bar@example.com" :subject "a cool report"} ;; e-mail headers
+    :html ;; format: either :html or :csv
+    {:hour 8 :minute 30 :day :weekdays})) ;; schedule in schejulure DSL
+```
+
+This will immediately start a future `java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask`.
+
+To cancel the report:
+
+```clojure
+(future-cancel my-report)
+```
+Note that the scheduler is single-threaded, so if one of your reports takes a long time to run it may block another report from running.
 
 ## Usage
 
