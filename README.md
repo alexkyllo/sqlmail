@@ -6,8 +6,11 @@ SQLMail is a simple Clojure application for e-mailing scheduled reports using SQ
 
 ### Use as an application
 Clone the project
-git clone git@github.com:alexkyllo/sqlmail.git
+
+`git clone git@github.com:alexkyllo/sqlmail.git`
+
 Add a profiles.clj to define your database connection and e-mail account
+
 Then edit resources/sql/queries.sql and src/sqlmail/core.clj to define and schedule your reports
 
 ### Use as a library
