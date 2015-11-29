@@ -9,6 +9,8 @@
             [schejulure.core :refer [schedule]]
             [tempfile.core :refer [tempfile with-tempfile]]))
 
+;; put queries in one file per source database and call defqueries once for each
+;; .sql filename and database connection pair.
 (defqueries "sql/queries.sql" {:connection (env :db-conn)})
 
 (defn map-to-html [data]
@@ -104,14 +106,14 @@
 (defn -main
   "Run to start all scheduled reports."
   [& args]
-  ;; schedule reports here using schejulure, e.g.:
-  ;; (schedule {:day [:mon :wed] :hour 8 :minute 30} (mail-csv-report ...))
-  (make-scheduled-report
-   user-count
-   {}
-   (env :mail-account)
-   {:from "alex.kyllo@gmail.com"
-    :to "alex.kyllo@gmail.com"
-    :subject "Test Scheduled Report"}
-   :html
-   {}))
+  ;; schedule reports here using make-scheduled-report, e.g.:
+  ;; (make-scheduled-report
+  ;;  my-query
+  ;;  {}
+  ;;  (env :mail-account)
+  ;;  {:from "foo@example.com"
+  ;;   :to "bar@example.com"
+  ;;   :subject "Test Scheduled Report"}
+  ;;  :html
+  ;;  {})
+  )
