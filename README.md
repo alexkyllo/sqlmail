@@ -2,18 +2,7 @@
 
 SQLMail is a simple Clojure application for e-mailing scheduled reports using SQL. It might be the simplest "reporting server" in the world. It is just [yesql](https://github.com/krisajenkins/yesql) + [postal](https://github.com/drewr/postal) + [schejulure](https://github.com/AdamClements/schejulure).
 
-## Installation
-
-### Use as an application
-Clone the project
-
-`git clone git@github.com:alexkyllo/sqlmail.git`
-
-Add a profiles.clj to define your database connection and e-mail account
-
-Then edit resources/sql/queries.sql and src/sqlmail/core.clj to define and schedule your reports
-
-### Use as a library
+## Use as a library
 Add this to your Leiningen dependencies in project.clj:
 
 [![Clojars Project](http://clojars.org/sqlmail/latest-version.svg)](http://clojars.org/sqlmail)
@@ -48,13 +37,14 @@ To cancel the report:
 ```
 Note that the scheduler is single-threaded, so if one of your reports takes a long time to run it may block another report from running.
 
-## Usage
+## Use as a standalone application
+Clone the project
 
-Run the jar and it will start a process that schedules all the reports defined in sqlmail.core/-main
+`git clone git@github.com:alexkyllo/sqlmail.git`
 
-    $ java -jar sqlmail-0.1.0-standalone.jar [args]
+Add a profiles.clj to define your database connection and e-mail account
 
-## Defining queries and reports
+Then edit resources/sql/queries.sql and src/sqlmail/core.clj to define and schedule your reports
 
 ```clojure
 
@@ -89,7 +79,9 @@ Run the jar and it will start a process that schedules all the reports defined i
      {}))
 ```
 
-Then either `lein run` or `lein jar` and run the jar using java to start the report server running.
+Either `lein run` or `lein jar` and run the jar using java to start a process that schedules all the reports defined in sqlmail.core/-main
+
+    $ java -jar sqlmail-0.1.0.jar [args]
 
 ## License
 
