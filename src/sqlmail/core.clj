@@ -57,9 +57,61 @@
                                    :content tf
                                    :file-name "report.csv"}]})))
 
+(defn mail-report
+  "Email the results of the query in either HTML or CSV format"
+  [query-name query-params mail-acct headers format]
+  (case format
+    :html
+    (send-message
+     mail-acct
+     (conj
+      headers
+      {:body [{:type "text/html"
+               :content (vec-to-html
+                         (query-name
+                          query-params
+                          {:as-arrays? true}))}]}))
+    :csv
+    (with-tempfile
+      [tf (tempfile
+           (with-out-str
+             (write-csv
+              *out*
+              (stringify-ids
+               (query-name query-params {:as-arrays? true})))))]
+      (send-message
+       mail-acct
+       (conj
+        headers
+        {:body [{:type :attachment
+                 :content tf
+                 :file-name "report.csv"}
+                {:type "text/plain"
+                 :content "Please see attached report in CSV format."}]})))))
+
+(defn make-scheduled-report
+  "query-name   - the name of a yesql-generated query to run
+  query-params - a map of parameters to the query
+  mail-acct    - a map of smtp account parameters with keys :host :user :pass :ssl for postal
+                 (see https://github.com/andrewdavey/postal)
+  headers      - the e-mail headers :to :from :subject
+  format       - :html (table) or :csv (attachment)
+  sched        - a map of times to run the query, in schejulure's DSL
+                 (see https://github.com/AdamClements/schejulure)"
+  [query-name query-params mail-acct headers format sched]
+  (schedule sched #(mail-report query-name query-params mail-acct headers format)))
+
 (defn -main
-  "main"
+  "Run to start all scheduled reports."
   [& args]
-  ;; schedule reports here, e.g.:
-  ;; (schedule ({:day [:mon :wed] :hour 8 :minute 30} (mail-csv-report ...))
-  )
+  ;; schedule reports here using schejulure, e.g.:
+  ;; (schedule {:day [:mon :wed] :hour 8 :minute 30} (mail-csv-report ...))
+  (make-scheduled-report
+   user-count
+   {}
+   (env :mail-account)
+   {:from "alex.kyllo@gmail.com"
+    :to "alex.kyllo@gmail.com"
+    :subject "Test Scheduled Report"}
+   :html
+   {}))
