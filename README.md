@@ -35,18 +35,18 @@ Run the jar and it will start a process that schedules all the reports defined i
     (env :mail-account)
     {:from "foo@example.com"
      :to "bar@example.com"
-     :subject "Test Scheduled Report"}
+     :subject "Test Scheduled HTML Report"}
      :html
      {})
   ;; another report
   (make-scheduled-report
-    my-query
+    my-other-query
     {}
     (env :mail-account)
     {:from "foo@example.com"
      :to "bar@example.com"
-     :subject "Test Scheduled Report"}
-     :html
+     :subject "Test Scheduled CSV Report"}
+     :csv
      {}))
 ```
 
